@@ -1,5 +1,4 @@
 <?php
-require 'conexion.php';
 class Usuario {
     private $datos = [
         'id' => '',
@@ -18,7 +17,15 @@ class Usuario {
         $sql = sprintf("select * from usuarios where id=%d", $userid);
         // ejecutar la sentencia ($rst = resultset)
         $rst = $cnn->query($sql);
-        var_dump($rst);
+        if (!$rst) {
+            die('Error al ejecutar la consulta MySQL');
+        } elseif ($rst->num_row == 1) {
+            // usuario encontrado
+            
+        } else {
+            // usuario no encontrado
+            return false;
+        }
     }
 
     public function __get($campo) {
@@ -29,6 +36,3 @@ class Usuario {
         $this->datos[$campo] = $valor;
     }  
 }
-
-$user = new Usuario();
-$user->findById(1);

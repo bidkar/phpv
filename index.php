@@ -1,4 +1,7 @@
-<?php require 'usuario.php'; ?>
+<?php
+require 'conexion.php';
+require 'usuario.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +15,6 @@
     $usuario->id = 10;
     $usuario->nombre = 'Bidkar';
     ?>
-    <!-- table>thead>tr>th*2^tbody>tr>td*2 -->
     <table>
         <thead>
             <tr>
@@ -27,5 +29,20 @@
             </tr>
         </tbody>
     </table>
+    <div style="padding:50px;background-color:gray;">
+        <form action="#">
+            <label for="userid">ID de Usuario</label>
+            <input type="text" name="userid" id="userid">
+            <button type="submit">Buscar por ID</button>
+        </form>
+    </div>
+    <?php
+    // leer la variable via metodo get
+    // isset() evalua que exista y que sea distinta de null
+    if (isset($_GET['userid'])) {
+        $id = $_GET['userid'];
+        $usuario->findById($id);
+    }
+    ?>
 </body>
 </html>
