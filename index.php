@@ -13,7 +13,7 @@ require 'usuario.php';
     <?php
     $usuario = new Usuario();
     $usuario->id = 10;
-    $usuario->nombre = 'Bidkar';
+    $usuario->nombres = 'Bidkar';
     ?>
     <table>
         <thead>
@@ -25,7 +25,7 @@ require 'usuario.php';
         <tbody>
             <tr>
                 <td><?php echo $usuario->id; ?></td>
-                <td><?php echo $usuario->nombre; ?></td>
+                <td><?php echo $usuario->nombres; ?></td>
             </tr>
         </tbody>
     </table>
@@ -41,7 +41,11 @@ require 'usuario.php';
     // isset() evalua que exista y que sea distinta de null
     if (isset($_GET['userid'])) {
         $id = $_GET['userid'];
-        $usuario->findById($id);
+        if ($usuario->buscarPorId($id)) {
+            var_dump($usuario);
+        } else {
+            echo 'usuario no encontrado';
+        }
     }
     ?>
 </body>
