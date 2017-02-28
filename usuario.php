@@ -50,13 +50,14 @@ class Usuario {
 
     public function nuevo() {
         $cnn = new Conexion();
-        $sql = sprintf("insert into usuarios (username,password,email,nombres,apellidos,foto,rol_id) values ('%s','%s','%s','%s','%s','%s',%d)", $this->username, $this->password, $this->email, $this->nombres, $this->apellidos, $this->foto, $this->rol_id);
+        $sql = sprintf("insert into usuarios (username,password,email,nombres,apellidos,foto,rol_id) values ('%s','%s','%s','%s','%s','%s',%d)", $this->username, md5($this->password), $this->email, $this->nombres, $this->apellidos, $this->foto, $this->rol_id);
 
         $rst = $cnn->query($sql);
         if (!$rst) {
             die('Error al ejecutar la consulta');
         } else { // el registro se inserto correctamente
             $this->id = $cnn->insert_id;
+            $cnn->close();
             return true;
         }
     }
@@ -93,8 +94,60 @@ class Usuario {
         }
     }
 
-    public function actualizar() {}
-    public function eliminar() {}
-    public function login() {}
-    public function cambiarRol() {}
+    public function actualizarPerfil() {
+        $cnn = new Conexion();
+        $sql = sprintf("update usuarios set nombres='%s', apellidos='%s', foto='%s'", $this->nombres, $this->apellidos, $this->foto);
+
+        $rst = $cnn->query($sql);
+        $cnn->close();
+        if (!$rst) {
+            die('Error al ejecutar la consulta');
+        } else {
+            return true;
+        }
+    }
+
+    public function changePassword() {
+        $cnn = new Conexion();
+        $sql = sprintf("update usuarios set password='%s'", md5($this->password));
+
+        $rst = $cnn->query($sql);
+        $cnn->close();
+        if (!$rst) {
+            die('Error al ejecutar la consulta');
+        } else {
+            return true;
+        }
+    }
+
+    public function cambiarRol() {
+        $cnn = new Conexion();
+        $sql = sprintf("update usuarios set rol_id=%d", $this->rol_id);
+
+        $rst = $cnn->query($sql);
+        $cnn->close();
+        if (!$rst) {
+            die('Error al ejecutar la consulta');
+        } else {
+            return true;
+        }
+    }
+
+    public static function eliminar(int $id) {
+        $cnn = new Conexion();
+        $sql = sprintf("delete from usuarios where id=%d", $id);
+
+        $rst = $cnn->query($sql);
+        $cnn->close();
+        if (!$rst) {
+            die('Error al ejecutar la consulta');
+        } else {
+            return true;
+        }
+    }
+    
+    public static function login(string $username, string $password) {
+        $cnn = new Conexion();
+        $sql = sprintf("select * from usuarios where username='%s' and password='%s'", $username, md5($password));
+    }
 }
