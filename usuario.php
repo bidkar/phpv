@@ -48,7 +48,51 @@ class Usuario {
         $this->datos[$campo] = $valor;
     }
 
-    public function nuevo() {}
+    public function nuevo() {
+        $cnn = new Conexion();
+        $sql = sprintf("insert into usuarios (username,password,email,nombres,apellidos,foto,rol_id) values ('%s','%s','%s','%s','%s','%s',%d)", $this->username, $this->password, $this->email, $this->nombres, $this->apellidos, $this->foto, $this->rol_id);
+
+        $rst = $cnn->query($sql);
+        if (!$rst) {
+            die('Error al ejecutar la consulta');
+        } else { // el registro se inserto correctamente
+            $this->id = $cnn->insert_id;
+            return true;
+        }
+    }
+
+    public function buscarPorUsername(string $username) {
+        $cnn = new Conexion();
+        $sql = sprintf("select username from usuarios where username = %s", $username);
+        $rst = $cnn->query($sql);
+        $cnn->close();
+        if (!$rst) {
+            die('Error al ejecutar la consulta');
+        } else {
+            if ($rst->num_rows == 1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    public function buscarPorEmail(string $email) {
+        $cnn = new Conexion();
+        $sql = sprintf("select username from usuarios where email = %s", $email);
+        $rst = $cnn->query($sql);
+        $cnn->close();
+        if (!$rst) {
+            die('Error al ejecutar la consulta');
+        } else {
+            if ($rst->num_rows == 1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
     public function actualizar() {}
     public function eliminar() {}
     public function login() {}
