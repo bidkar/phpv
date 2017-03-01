@@ -3,8 +3,8 @@ class Usuario {
     private $datos = [
         'id' => '',
         'username' => '',
-        'email' => '',
         'password' => '',
+        'email' => '',
         'nombres' => '',
         'apellidos' => '',
         'foto' => '',
@@ -45,12 +45,12 @@ class Usuario {
     }
 
     public function __set($campo, $valor) {
-        $this->datos[$campo] = $valor;
+        $this->datos[$campo] = ($campo == 'password') ? md5($valor) : $valor;
     }
 
     public function nuevo() {
         $cnn = new Conexion();
-        $sql = sprintf("insert into usuarios (username,password,email,nombres,apellidos,foto,rol_id) values ('%s','%s','%s','%s','%s','%s',%d)", $this->username, md5($this->password), $this->email, $this->nombres, $this->apellidos, $this->foto, $this->rol_id);
+        $sql = sprintf("insert into usuarios (username,password,email,nombres,apellidos,foto,rol_id) values ('%s','%s','%s','%s','%s','%s',%d)", $this->username, $this->password, $this->email, $this->nombres, $this->apellidos, $this->foto, $this->rol_id);
 
         $rst = $cnn->query($sql);
         if (!$rst) {
@@ -147,7 +147,32 @@ class Usuario {
     }
     
     public static function login(string $username, string $password) {
+        $usuario = new Usuario();
+        $usuario->username = $username;
+        $usuario->password = $password;
+
         $cnn = new Conexion();
-        $sql = sprintf("select * from usuarios where username='%s' and password='%s'", $username, md5($password));
+        $sql = sprintf("select * from usuarios where username='%s' and password='%s'", $usuario->username, $usuario->password);
+
+        $rst = $cnn->query($sql);
+        $cnn->close();
+        if (!$rst) {
+            die('Error al ejecutar la consulta');
+        } else {
+            if ($rst->num_rows == 1) {
+                $reg = $rst->fetch_assoc();
+                $usuario->id = $reg['id'];
+                $usuario->email = $reg['email'];
+                $usuario->nombres = $reg['nombres'];
+                $usuario->apellidos = $reg['apellidos'];
+                $usuario->foto = $reg['foto'];
+                $usuario->rol_id = $reg['rol_id'];
+                $usuario->password = '';
+
+                return $usuario;
+            } else {
+                return false;
+            }
+        }
     }
 }
