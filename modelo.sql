@@ -1,7 +1,7 @@
-create schema moodle;
-use moodle;
+create schema moodlev;
+use moodlev;
 
-CREATE TABLE IF NOT EXISTS `moodle`.`roles` (
+CREATE TABLE IF NOT EXISTS `moodlev`.`roles` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(20) NOT NULL,
   `descripcion` VARCHAR(200) NOT NULL,
@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS `moodle`.`roles` (
   UNIQUE INDEX `nombre_UNIQUE` (`nombre` ASC))
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `moodle`.`usuarios` (
+CREATE TABLE IF NOT EXISTS `moodlev`.`usuarios` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(12) NOT NULL,
   `password` VARCHAR(200) NOT NULL,
@@ -24,12 +24,12 @@ CREATE TABLE IF NOT EXISTS `moodle`.`usuarios` (
   INDEX `fk_usuarios_roles_idx` (`rol_id` ASC),
   CONSTRAINT `fk_usuarios_roles`
     FOREIGN KEY (`rol_id`)
-    REFERENCES `moodle`.`roles` (`id`)
+    REFERENCES `moodlev`.`roles` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `moodle`.`cursos` (
+CREATE TABLE IF NOT EXISTS `moodlev`.`cursos` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(100) NOT NULL,
   `introduccion` VARCHAR(300) NOT NULL,
@@ -40,12 +40,12 @@ CREATE TABLE IF NOT EXISTS `moodle`.`cursos` (
   INDEX `fk_cursos_usuarios_idx` (`autor_id` ASC),
   CONSTRAINT `fk_cursos_usuarios`
     FOREIGN KEY (`autor_id`)
-    REFERENCES `moodle`.`usuarios` (`id`)
+    REFERENCES `moodlev`.`usuarios` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `moodle`.`asignaciones` (
+CREATE TABLE IF NOT EXISTS `moodlev`.`asignaciones` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `curso_id` INT NOT NULL,
   `titulo` VARCHAR(100) NOT NULL,
@@ -54,12 +54,12 @@ CREATE TABLE IF NOT EXISTS `moodle`.`asignaciones` (
   INDEX `fk_asignaciones_cursos_idx` (`curso_id` ASC),
   CONSTRAINT `fk_asignaciones_cursos`
     FOREIGN KEY (`curso_id`)
-    REFERENCES `moodle`.`cursos` (`id`)
+    REFERENCES `moodlev`.`cursos` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `moodle`.`grupos` (
+CREATE TABLE IF NOT EXISTS `moodlev`.`grupos` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(20) NOT NULL,
   `curso_id` INT NOT NULL,
@@ -68,24 +68,24 @@ CREATE TABLE IF NOT EXISTS `moodle`.`grupos` (
   INDEX `fk_grupos_cursos_idx` (`curso_id` ASC),
   CONSTRAINT `fk_grupos_cursos`
     FOREIGN KEY (`curso_id`)
-    REFERENCES `moodle`.`cursos` (`id`)
+    REFERENCES `moodlev`.`cursos` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `moodle`.`matriculaciones` (
+CREATE TABLE IF NOT EXISTS `moodlev`.`matriculaciones` (
   `usuario_id` INT NOT NULL,
   `grupo_id` INT NOT NULL,
   PRIMARY KEY (`usuario_id`, `grupo_id`),
   INDEX `fk_matricula_grupos_idx` (`grupo_id` ASC),
   CONSTRAINT `fk_matricula_usuarios`
     FOREIGN KEY (`usuario_id`)
-    REFERENCES `moodle`.`usuarios` (`id`)
+    REFERENCES `moodlev`.`usuarios` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT,
   CONSTRAINT `fk_matricula_grupos`
     FOREIGN KEY (`grupo_id`)
-    REFERENCES `moodle`.`grupos` (`id`)
+    REFERENCES `moodlev`.`grupos` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT)
 ENGINE = InnoDB;
