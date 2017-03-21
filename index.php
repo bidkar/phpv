@@ -1,6 +1,14 @@
 <?php
 require 'conexion.php';
 require 'usuario.php';
+
+// validar sesion iniciado
+session_start();
+if (!isset($_SESSION['usuario'])) {
+    header('Location:views/login.php');
+}
+// fin validacion
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

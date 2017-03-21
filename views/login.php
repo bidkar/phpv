@@ -2,6 +2,13 @@
 require '../conexion.php';
 require '../usuario.php';
 
+// validar sesion iniciado
+session_start();
+if (isset($_SESSION['usuario'])) {
+    header('Location:../index.php');
+}
+// fin validacion
+
 $error = false;
 
 if (isset($_POST['txtUsuario'])) {
@@ -14,6 +21,8 @@ if (isset($_POST['txtUsuario'])) {
         } else {
             // redireccionar a la pagina principal
             // despues de iniciar sesion
+            $_SESSION['usuario'] = $usuario;
+            header('Location:../index.php');
         }
     }
 }
