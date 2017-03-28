@@ -1,11 +1,11 @@
 <?php
-require 'conexion.php';
-require 'usuario.php';
+require '../models/conexion.php';
+require '../models/usuario.php';
 
 // validar sesion iniciado
 session_start();
 if (!isset($_SESSION['usuario'])) {
-    header('Location:views/login.php');
+    header('Location:login.php');
 }
 // fin validacion
 

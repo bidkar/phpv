@@ -1,11 +1,11 @@
 <?php
-require '../conexion.php';
-require '../usuario.php';
+require '../models/conexion.php';
+require '../models/usuario.php';
 
 // validar sesion iniciado
 session_start();
 if (isset($_SESSION['usuario'])) {
-    header('Location:../index.php');
+    header('Location:home.php');
 }
 // fin validacion
 
@@ -22,7 +22,7 @@ if (isset($_POST['txtUsuario'])) {
             // redireccionar a la pagina principal
             // despues de iniciar sesion
             $_SESSION['usuario'] = $usuario;
-            header('Location:../index.php');
+            header('Location:home.php');
         }
     }
 }
