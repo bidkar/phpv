@@ -1,6 +1,6 @@
 <?php
 require '../models/conexion.php';
-require '../models/usuario.php';
+require 'app/models/usuario.php';
 
 // validar sesion iniciado
 session_start();
@@ -27,15 +27,7 @@ if (isset($_POST['txtUsuario'])) {
     }
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Inicio de sesión</title>
-</head>
-<body>
+<?php include_once 'layouts/master.tpl.php'; ?>
     <?php
     if ($error) {
         echo 'Usuario o contraseña incorrectos';
@@ -48,5 +40,3 @@ if (isset($_POST['txtUsuario'])) {
         <input type="password" name="txtPassword" id="txtPassword">
         <button type="submit">Iniciar sesión</button>
     </form>
-</body>
-</html>
