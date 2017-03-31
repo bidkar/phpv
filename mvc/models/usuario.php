@@ -1,5 +1,5 @@
 <?php
-namespace App\Models;
+namespace MVC\Models;
 
 class Usuario {
     private $datos = [

@@ -1,4 +1,6 @@
 <?php
+namespace App\MySQL;
+
 class Conexion extends mysqli {
 
     public function __construct() {

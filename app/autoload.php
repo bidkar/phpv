@@ -5,7 +5,6 @@ return
 		$ruta = strtolower($classname);
 		$ruta = str_replace("\\", "/", $ruta) . ".php";
 		if (is_readable($ruta)) {
-			print $ruta;
 			require $ruta;
 		}
 		else

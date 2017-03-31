@@ -1,10 +1,10 @@
 <?php
-require 'conexion.php';
-require 'usuario.php';
+require __DIR__."/config.inc.php";
+extract($config['database']);
+// var_dump($config);
 
-// se reciben los parametros del formulario
-$user = 'bidkar';
-$pwd = '123';
-
-$usuario = Usuario::login($user, $pwd);
-var_dump($usuario);
+print $host."\n";
+print $username."\n";
+print $password."\n";
+print $dbname."\n";
+print $port."\n";
