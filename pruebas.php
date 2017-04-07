@@ -1,10 +1,9 @@
 <?php
-require __DIR__."/config.inc.php";
-extract($config['database']);
-// var_dump($config);
+require __DIR__.'/config.php';
+require __DIR__.'/app/autoload.php';
 
-print $host."\n";
-print $username."\n";
-print $password."\n";
-print $dbname."\n";
-print $port."\n";
+use MVC\Models\Rol;
+
+$roles = Rol::getRoles();
+
+var_dump($roles);

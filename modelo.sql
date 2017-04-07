@@ -9,6 +9,13 @@ CREATE TABLE IF NOT EXISTS `moodlev`.`roles` (
   UNIQUE INDEX `nombre_UNIQUE` (`nombre` ASC))
 ENGINE = InnoDB;
 
+insert into moodlev.roles (nombre, descripcion)
+values
+  ('admin', 'Usuario administrador'),
+  ('docente', 'Usuario docente'),
+  ('estudiante', 'Usuario estudiante'),
+  ('invitado', 'Usuario invitado');
+
 CREATE TABLE IF NOT EXISTS `moodlev`.`usuarios` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(12) NOT NULL,
