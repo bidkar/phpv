@@ -44,12 +44,24 @@ class Rol {
 		}
 	}
 
-	public static function getRolByID()
+	public static function getRolByID(int $rolid)
 	{
-		// conectar
-		// definir consulta
-		// ejecutar consulta
-		// evaluar resultado
-		// retornar resultado
+        $cnn = new Conexion();
+        $query = sprintf("select * from roles where id=%d", $rolid);
+        $rst = $cnn->query($query);
+        $cnn->close();
+
+        if (!$rst) {
+            die('Error al ejecutar la consulta MySQL');
+        } elseif ($rst->num_rows == 1) {
+			$rol = new Rol();
+            $r = $rst->fetch_assoc();
+            $rol->id = $rolid;
+            $rol->nombre = $r['nombre'];
+            $rol->descripcion = $r['descripcion'];
+            return $rol;
+        } else {
+            return false;
+        }
 	}
 }
